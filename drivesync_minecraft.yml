@@ -10,7 +10,7 @@ allow_remote_deletion: true
 #keep_remote => Downloads the remote version and overwrites local changes
 #keep_local =>  Uploads the local version and overwrites remote changes
 #ignore => Does nothing and keeps both versions
-update_conflict_strategy: keep_latest
+update_conflict_strategy: keep_local
 
 
 #Timeout threshold for the service in seconds. If a request takes longer
