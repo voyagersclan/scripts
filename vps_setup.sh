@@ -1,18 +1,15 @@
 #!/bin/sh
-
-# Paste the following line on to the linux box to download the entire script and setup the box (Debian 9 64 Bit or higher)
-#$SUDO_COMMAND sh <(curl -sL https://raw.githubusercontent.com/voyagersclan/scripts/master/setup_box.sh)
+# Run the following command on the linux box to download the script and set up the box (Debian 9)
+# sh <(wget -qO- https://raw.githubusercontent.com/voyagersclan/scripts/master/vps_setup.sh)
 
 SUDO_COMMAND=""
 INSTALL_COMMAND="$SUDO_COMMAND apt-get install -y"
 
-# echo on
-set -x
-
-$SUDO_COMMAND dpkg --configure -a
+#$SUDO_COMMAND dpkg --configure -a
 
 # install required packages
 $INSTALL_COMMAND curl git screen openjdk-8-jre-headless ruby-full
+$SUDO_COMMAND gem install bundler
 
 # install drivesync into /opt/drivesync
 cd /opt
