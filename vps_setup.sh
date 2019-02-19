@@ -5,9 +5,6 @@
 SUDO_COMMAND=""
 INSTALL_COMMAND="$SUDO_COMMAND apt-get install -y"
 
-MINECRAFT_USER="minecraft"
-MINECRAFT_DIR="/opt/minecraft"
-
 #$SUDO_COMMAND dpkg --configure -a
 
 # install required packages
@@ -20,16 +17,18 @@ $SUDO_COMMAND apt-get update
 $INSTALL_COMMAND drive
 
 # create user for minecraft service
-$SUDO_COMMAND adduser --system --home ${MINECRAFT_DIR} --shell /bin/bash --group ${MINECRAFT_USER}
+$SUDO_COMMAND adduser --system --home /opt/minecraft --shell /bin/bash --group minecraft
 
 # set up minecraft folder sync and pull
-drive init /opt
-chown -R :minecraft /opt/.gd
-chmod -R g+rwx /opt/.gd
-su $MINECRAFT_USER -c "cd $MINECRAFT_DIR && drive pull -ignore-conflict"
+$SUDO_COMMAND drive init /opt
+$SUDO_COMMAND chown -R minecraft:minecraft /opt/.gd
+$SUDO_COMMAND su minecraft -c "cd /opt/minecraft && drive pull -ignore-conflict"
 
 # create cronjob to sync the server with google drive hourly
-$SUDO_COMMAND curl https://raw.githubusercontent.com/voyagersclan/scripts/master/sync_minecraft.sh > /etc/cron.hourly/sync_minecraft.sh
+$SUDO_COMMAND curl https://raw.githubusercontent.com/voyagersclan/scripts/master/sync_minecraft.sh > /opt/minecraft/sync.sh
+$SUDO_COMMAND chown minecraft:minecraft /opt/minecraft/sync.sh
+$SUDO_COMMAND chmod u+x /opt/minecraft/sync.sh
+$SUDO_COMMAND echo "0 * * * * minecraft sh /opt/minecraft/sync.sh" > /etc/cron.d/sync_minecraft
 
 # grab minecraft service script
 $SUDO_COMMAND curl https://raw.githubusercontent.com/agowa338/MinecraftSystemdUnit/master/minecraft%40.service > /etc/systemd/system/minecraft@.service
