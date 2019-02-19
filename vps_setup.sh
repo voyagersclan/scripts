@@ -5,28 +5,30 @@
 SUDO_COMMAND=""
 INSTALL_COMMAND="$SUDO_COMMAND apt-get install -y"
 
+MINECRAFT_USER="minecraft"
+MINECRAFT_DIR="/opt/minecraft"
+
 #$SUDO_COMMAND dpkg --configure -a
 
 # install required packages
-$INSTALL_COMMAND curl git screen openjdk-8-jre-headless ruby-full
-$SUDO_COMMAND gem install bundler
+$INSTALL_COMMAND curl git screen openjdk-8-jre-headless software-properties-common
 
-# install drivesync into /opt/drivesync
-cd /opt
-$SUDO_COMMAND git clone https://github.com/MStadlmeier/drivesync.git
-cd drivesync
-$SUDO_COMMAND bundle install
+# install and set up drive (debian)
+$SUDO_COMMAND apt-add-repository 'deb http://shaggytwodope.github.io/repo ./'
+$SUDO_COMMAND apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7086E9CC7EC3233B
+$SUDO_COMMAND apt-get update
+$INSTALL_COMMAND drive
+drive init /opt
 
 # create user for minecraft service
-$SUDO_COMMAND adduser --system --home /opt/minecraft --shell /bin/bash --group minecraft
+$SUDO_COMMAND adduser --system --home ${MINECRAFT_DIR} --shell /bin/bash --group ${MINECRAFT_USER}
 
-# configure and run drivesync to sync /opt/minecraft directory
-$SUDO_COMMAND su - minecraft -c "mkdir ~/.drivesync"
-$SUDO_COMMAND su - minecraft -c "curl https://raw.githubusercontent.com/voyagersclan/scripts/master/drivesync_minecraft.yml > ~/.drivesync/config.yml"
-$SUDO_COMMAND su - minecraft -c "ruby /opt/drivesync/drivesync.rb"
+# pull server files from google drive
+cd $MINECRAFT_DIR
+drive pull
 
-# create cronjob for minecraft drivesync
-$SUDO_COMMAND echo "0 * * * * minecraft ruby /opt/drivesync/drivesync.rb" > /etc/cron.d/drivesync_minecraft
+# create cronjob to sync the server with google drive hourly
+$SUDO_COMMAND curl https://raw.githubusercontent.com/voyagersclan/scripts/master/sync_minecraft.sh > /etc/cron.hourly/sync_minecraft.sh
 
 # grab minecraft service script
 $SUDO_COMMAND curl https://raw.githubusercontent.com/agowa338/MinecraftSystemdUnit/master/minecraft%40.service > /etc/systemd/system/minecraft@.service
