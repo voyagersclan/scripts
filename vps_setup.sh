@@ -11,21 +11,22 @@ MINECRAFT_DIR="/opt/minecraft"
 #$SUDO_COMMAND dpkg --configure -a
 
 # install required packages
-$INSTALL_COMMAND curl git screen openjdk-8-jre-headless software-properties-common
+$INSTALL_COMMAND curl git screen openjdk-8-jre-headless software-properties-common dirmngr
 
-# install and set up drive (debian)
+# install drive (debian)
 $SUDO_COMMAND apt-add-repository 'deb http://shaggytwodope.github.io/repo ./'
 $SUDO_COMMAND apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7086E9CC7EC3233B
 $SUDO_COMMAND apt-get update
 $INSTALL_COMMAND drive
-drive init /opt
 
 # create user for minecraft service
 $SUDO_COMMAND adduser --system --home ${MINECRAFT_DIR} --shell /bin/bash --group ${MINECRAFT_USER}
 
-# pull server files from google drive
-cd $MINECRAFT_DIR
-drive pull
+# set up minecraft folder sync and pull
+drive init /opt
+chown -R :minecraft /opt/.gd
+chmod -R g+rwx /opt/.gd
+su $MINECRAFT_USER -c "cd $MINECRAFT_DIR && drive pull -ignore-conflict"
 
 # create cronjob to sync the server with google drive hourly
 $SUDO_COMMAND curl https://raw.githubusercontent.com/voyagersclan/scripts/master/sync_minecraft.sh > /etc/cron.hourly/sync_minecraft.sh

@@ -13,7 +13,7 @@ sync
 sleep 10
 
 # push minecraft directory to google drive
-su $MINECRAFT_USER -c "cd $MINECRAFT_DIR && drive push"
+su $MINECRAFT_USER -c "cd $MINECRAFT_DIR && drive push -no-prompt -ignore-conflict"
 
 # done - resume autosaving
 su $MINECRAFT_USER -c "screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff \"save-on\"\015'"
