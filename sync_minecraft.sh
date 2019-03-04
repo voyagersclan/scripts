@@ -10,9 +10,12 @@ screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff "save-all"\015'
 
 sync && wait
 
-# push minecraft directory to google drive
 cd /opt/minecraft
-drive push -no-prompt -ignore-conflict -ignore-name-clashes
+# archive server directory
+tar -cf vanilla.tar vanilla
 
-# done - resume autosaving
+# resume autosaving on server
 screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff "save-on"\015'
+
+# push archive to drive
+drive push -no-prompt -ignore-conflict -ignore-name-clashes vanilla.tar
