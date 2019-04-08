@@ -23,6 +23,9 @@ $SUDO_COMMAND adduser --system --home /opt/minecraft --shell /bin/bash --group m
 $SUDO_COMMAND drive init /opt
 $SUDO_COMMAND chown -R minecraft:minecraft /opt/.gd
 $SUDO_COMMAND su minecraft -c "cd /opt/minecraft && drive pull -ignore-conflict"
+# extract archives
+$SUDO_COMMAND su minecraft -c "tar -xvf *.tar"
+$SUDO_COMMAND rm /opt/minecraft/*.tar
 
 # create cronjob to sync the server with google drive hourly
 $SUDO_COMMAND curl https://raw.githubusercontent.com/voyagersclan/scripts/master/sync_minecraft.sh > /opt/minecraft/sync.sh
