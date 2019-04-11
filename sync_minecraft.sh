@@ -5,8 +5,9 @@ SCREEN_NAME="mc-vanilla"
 
 # make server read-only and save
 # (eventually we may want to loop through *any* running servers)
-screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff "save-off"\015'
-screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff "save-all"\015'
+screen -S ${SCREEN_NAME} -X eval 'stuff \015'
+screen -S ${SCREEN_NAME} -X eval 'stuff "save-off"\015'
+screen -S ${SCREEN_NAME} -X eval 'stuff "save-all"\015'
 
 sync && wait
 
@@ -15,7 +16,7 @@ cd /opt/minecraft
 tar -cf vanilla.tar vanilla
 
 # resume autosaving on server
-screen -p 0 -S ${SCREEN_NAME} -X eval 'stuff "save-on"\015'
+screen -S ${SCREEN_NAME} -X eval 'stuff "save-on"\015'
 
 # push archive to drive
 drive push -no-prompt -ignore-conflict -ignore-name-clashes vanilla.tar

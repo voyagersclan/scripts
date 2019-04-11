@@ -1,0 +1,10 @@
+. {
+	rewrite name hivebedrock.network mc.voyagers.cc
+	rewrite name mco.cubecraft.net mc.voyagers.cc
+	rewrite name mco.mineplex.com mc.voyagers.cc
+	rewrite name mco.lbsg.net mc.voyagers.cc
+	rewrite name play.inpvp.net mc.voyagers.cc
+	log
+	errors
+	forward . tls://1.1.1.1 tls://1.0.0.1
+}
