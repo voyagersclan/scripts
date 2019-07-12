@@ -38,10 +38,11 @@ function Setup_NetNatStaticMapping()
     
     $NetNatStaticMappingList = Get-NetNatStaticMapping 
 
-    foreach($NetNatStaticMapping in $NetNatStaticMappingList)
-    {
-        Remove-NetNatStaticMapping -StaticMappingID $NetNatStaticMapping.StaticMappingID -confirm:$false
-    }
+    #Apparently this executes so fast that it kills the ones in line 47? What the fuck?
+    #foreach($NetNatStaticMapping in $NetNatStaticMappingList)
+    #{
+    #    Remove-NetNatStaticMapping -StaticMappingID $NetNatStaticMapping.StaticMappingID -confirm:$false
+    #}
 
     Add-NetNatStaticMapping -ExternalIPAddress $ExternalIPAddress -ExternalPort $ExternalPort -Protocol $Protocol -InternalIPAddress $InternalIPAddress -InternalPort $InternalPort -NatName $NatName
 }
