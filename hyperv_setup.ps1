@@ -26,6 +26,8 @@ function main()
     Remove-NetNat -Name $NET_NAT_NAME -confirm:$false
     New-NetNAT -Name $NET_NAT_NAME -InternalIPInterfaceAddressPrefix $NET_INTERNAL_IP_INTERFACE_ADDRESS_PREFIX
 
+    Setup_NetNatStaticMapping_RemoveAll
+
     Setup_PortForwarding -Port 22
     Setup_PortForwarding -Port 25565
     Setup_PortForwarding -Port 19132
@@ -35,16 +37,17 @@ function main()
 function Setup_NetNatStaticMapping()
 {
     param($ExternalIPAddress, $ExternalPort, $Protocol, $InternalIPAddress, $InternalPort, $NatName)
-    
+    Add-NetNatStaticMapping -ExternalIPAddress $ExternalIPAddress -ExternalPort $ExternalPort -Protocol $Protocol -InternalIPAddress $InternalIPAddress -InternalPort $InternalPort -NatName $NatName
+}
+
+function Setup_NetNatStaticMapping_RemoveAll()
+{
     $NetNatStaticMappingList = Get-NetNatStaticMapping 
 
-    #Apparently this executes so fast that it kills the ones in line 47? What the fuck?
-    #foreach($NetNatStaticMapping in $NetNatStaticMappingList)
-    #{
-    #    Remove-NetNatStaticMapping -StaticMappingID $NetNatStaticMapping.StaticMappingID -confirm:$false
-    #}
-
-    Add-NetNatStaticMapping -ExternalIPAddress $ExternalIPAddress -ExternalPort $ExternalPort -Protocol $Protocol -InternalIPAddress $InternalIPAddress -InternalPort $InternalPort -NatName $NatName
+    foreach($NetNatStaticMapping in $NetNatStaticMappingList)
+    {
+        Remove-NetNatStaticMapping -StaticMappingID $NetNatStaticMapping.StaticMappingID -confirm:$false
+    }
 }
 
 function Setup_PortForwarding()
