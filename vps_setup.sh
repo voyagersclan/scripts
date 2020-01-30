@@ -2,7 +2,7 @@
 # Run the following command on the linux box to download the script and set up the box (Debian 9)
 # sh <(wget -qO- https://raw.githubusercontent.com/voyagersclan/scripts/master/vps_setup.sh)
 
-SUDO_COMMAND=""
+SUDO_COMMAND="sudo"
 INSTALL_COMMAND="$SUDO_COMMAND apt-get install -y"
 
 #$SUDO_COMMAND dpkg --configure -a
