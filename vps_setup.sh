@@ -20,8 +20,12 @@ $INSTALL_COMMAND drive
 $SUDO_COMMAND adduser --system --home /opt/minecraft --shell /bin/bash --group minecraft
 
 # set up minecraft folder sync and pull
+$SUDO_COMMAND rm -Rf /opt/.gd 
+$SUDO_COMMAND rm -Rf /opt/minecraft
+$SUDO_COMMAND mkdir /opt/minecraft
 $SUDO_COMMAND drive init /opt
 $SUDO_COMMAND chown -R minecraft:minecraft /opt/.gd
+$SUDO_COMMAND chown -R minecraft:minecraft /opt/minecraft
 $SUDO_COMMAND su minecraft -c "cd /opt/minecraft && drive pull -ignore-conflict"
 # extract archives
 $SUDO_COMMAND su minecraft -c "tar -xvf *.tar"
