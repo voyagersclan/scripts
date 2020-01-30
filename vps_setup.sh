@@ -8,7 +8,7 @@ INSTALL_COMMAND="$SUDO_COMMAND apt-get install -y"
 #$SUDO_COMMAND dpkg --configure -a
 
 # install required packages
-$INSTALL_COMMAND curl git screen openjdk-8-jre-headless software-properties-common dirmngr
+$INSTALL_COMMAND curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https
 
 # install drive (debian)
 $SUDO_COMMAND apt-add-repository 'deb http://shaggytwodope.github.io/repo ./'
