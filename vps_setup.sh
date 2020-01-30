@@ -28,7 +28,7 @@ $SUDO_COMMAND chown -R minecraft:minecraft /opt/.gd
 $SUDO_COMMAND chown -R minecraft:minecraft /opt/minecraft
 $SUDO_COMMAND su minecraft -c "cd /opt/minecraft && drive pull -no-prompt -quiet vanilla.tar "
 # extract archives
-$SUDO_COMMAND su minecraft -c "tar -xvf *.tar"
+$SUDO_COMMAND su minecraft -c "cd /opt/minecraft && tar -xvf vanilla.tar"
 $SUDO_COMMAND rm /opt/minecraft/*.tar
 
 # create cronjob to sync the server with google drive hourly
