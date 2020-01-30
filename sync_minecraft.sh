@@ -29,7 +29,7 @@ cd /opt/minecraft/backup
 
 DATE_STAMP=`date "+%Y-%m-%d-%H_%M"`
 
-tar -czvf /opt/minecraft/backup/vanilla_$DATE_STAMP.tar.gz /opt/minecraft/vanilla
+tar -czvf /opt/minecraft/backup/vanilla_$DATE_STAMP.tar.gz /opt/minecraft/vanilla.tar
 drive push -no-prompt -quiet vanilla_$DATE_STAMP.tar.gz
 
 #Delete backups older than 60 days
