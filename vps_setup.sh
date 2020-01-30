@@ -34,7 +34,7 @@ $SUDO_COMMAND chmod u+x /opt/minecraft/sync.sh
 $SUDO_COMMAND echo "0 * * * * minecraft sh /opt/minecraft/sync.sh" > /etc/cron.d/sync_minecraft
 
 # grab minecraft service script
-$SUDO_COMMAND curl https://raw.githubusercontent.com/agowa338/MinecraftSystemdUnit/master/minecraft%40.service > /etc/systemd/system/minecraft@.service
+$SUDO_COMMAND curl https://raw.githubusercontent.com/voyagersclan/scripts/master/minecraft%40.service > /etc/systemd/system/minecraft@.service
 
 # start and enable minecraft service
 #$SUDO_COMMAND systemctl enable minecraft@vanilla
