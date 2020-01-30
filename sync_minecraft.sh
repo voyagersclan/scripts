@@ -13,10 +13,24 @@ sync && wait
 
 cd /opt/minecraft
 # archive server directory
-tar -cf vanilla.tar vanilla
+rm -f /opt/minecraft/vanilla.tar
+tar -cf /opt/minecraft/vanilla.tar /opt/minecraft/vanilla
 
 # resume autosaving on server
 screen -S ${SCREEN_NAME} -X eval 'stuff "save-on"\015'
 
 # push archive to drive
-drive push -no-prompt -ignore-conflict -ignore-name-clashes vanilla.tar
+drive trash -quiet vanilla.tar
+drive push -no-prompt -quiet vanilla.tar
+
+#Backup magic
+mkdir /opt/minecraft/backup
+cd /opt/minecraft/backup
+
+DATE_STAMP=`date "+%Y-%m-%d-%H_%M"`
+
+tar -czvf /opt/minecraft/backup/vanilla_$DATE_STAMP.tar.gz /opt/minecraft/vanilla
+
+#Delete backups older than 60 days
+find /opt/minecraft/backup -type f -mtime +60 -exec drive trash -quiet {}
+find . -type f -mtime +60 -delete
