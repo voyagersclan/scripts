@@ -26,7 +26,7 @@ $SUDO_COMMAND mkdir /opt/minecraft
 $SUDO_COMMAND drive init /opt
 $SUDO_COMMAND chown -R minecraft:minecraft /opt/.gd
 $SUDO_COMMAND chown -R minecraft:minecraft /opt/minecraft
-$SUDO_COMMAND su minecraft -c "cd /opt/minecraft && drive pull -ignore-conflict"
+$SUDO_COMMAND su minecraft -c "cd /opt/minecraft && drive pull -no-prompt -quiet vanilla.tar "
 # extract archives
 $SUDO_COMMAND su minecraft -c "tar -xvf *.tar"
 $SUDO_COMMAND rm /opt/minecraft/*.tar
